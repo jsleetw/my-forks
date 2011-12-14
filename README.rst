@@ -8,6 +8,7 @@ Require
     * in ubuntu :
 
 ::
+
     sudo apt-get install fabric
 
 configuration
@@ -18,6 +19,7 @@ Usage
 -----
 
 ::
+
     fab update
 
 
