@@ -7,7 +7,7 @@ env.hosts = ["localhost"]
 
 
 def get_my_fork():
-    user_name = raw_input("enter your user name : ")
+    user_name = raw_input("enter your github user name : ")
     github = Github()
     repos = github.repos.list(user_name)
     my_forks = {}
