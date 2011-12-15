@@ -1,16 +1,16 @@
 from fabric.api import run, env
 from fabric.context_managers import settings, cd
 from fabric.contrib import console
-from fabric.colors import green, red, blue, cyan, magenta, yellow
-from github2.client import Github
+import fabric.colors as color
+import github2.client
 
 code_dir = '~/test_my_forks/'
 env.hosts = ["localhost"]
 
 
 def get_my_fork():
-    user_name = raw_input(green("enter your github user name : "))
-    github = Github()
+    user_name = raw_input(color.green("enter your github user name : "))
+    github = github2.client.Github()
     repos = github.repos.list(user_name)
     my_forks = {}
     for element in repos:
@@ -26,13 +26,13 @@ def get_my_fork():
             else:
                 my_forks[project_pure_name]["branch"] = "master"
 
-    print green("Will sync your forks as below:")
+    print color.green("Will sync your forks as below:")
     for element in my_forks.keys():
-        print "%s : from %s branch:%s to %s" % (blue(str(element)),
-                                                cyan(str(my_forks[element]["upstream"])),
-                                                magenta(str(my_forks[element]["branch"])),
-                                                yellow(str(my_forks[element]["origin"])))
-    if console.confirm(red("Do you want to continue?"), default=True):
+        print "%s : from %s branch:%s to %s" % (color.blue(str(element)),
+                                                color.cyan(str(my_forks[element]["upstream"])),
+                                                color.magenta(str(my_forks[element]["branch"])),
+                                                color.yellow(str(my_forks[element]["origin"])))
+    if console.confirm(color.red("Do you want to continue?"), default=True):
         return my_forks
     else:
         return False
