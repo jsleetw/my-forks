@@ -6,7 +6,7 @@ Require
 -------
     * fabric : http://fabfile.org/
     * github2 : http://packages.python.org/github2/
-    * in ubuntu :
+    * easy_install :
 
 ::
 
@@ -14,7 +14,8 @@ Require
 
 configuration
 -------------
-    * open fabfile.py edit my_forks {}
+    * open fabfile.py edit ur code_dir
+    * will asking ur user name in runtime
 
 Usage
 -----
