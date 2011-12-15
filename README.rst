@@ -4,12 +4,13 @@ simplly use (fab update) to sync your github forks repos with source repos
 
 Require
 -------
-    * install fabric : http://fabfile.org/
+    * fabric : http://fabfile.org/
+    * github2 : http://packages.python.org/github2/
     * in ubuntu :
 
 ::
 
-    sudo apt-get install fabric
+    easy_install fabric github2
 
 configuration
 -------------
