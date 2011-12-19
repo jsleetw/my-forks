@@ -1,4 +1,4 @@
-from fabric.api import run, env
+from fabric.api import run, env, prompt
 from fabric.context_managers import settings, cd
 from fabric.contrib import console
 import fabric.colors as color
@@ -9,7 +9,7 @@ env.hosts = ["localhost"]
 
 
 def get_my_fork():
-    user_name = raw_input(color.green("enter your github user name : "))
+    user_name = prompt(color.green("enter your github user name : "))
     github = github2.client.Github()
     repos = github.repos.list(user_name)
     my_forks = {}
