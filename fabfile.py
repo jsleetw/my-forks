@@ -3,14 +3,36 @@ from fabric.context_managers import settings, cd
 from fabric.contrib import console
 import fabric.colors as color
 import github2.client
+import os
 
 code_dir = '~/test_my_forks/'
 env.hosts = ["localhost"]
 
 
 def get_my_fork():
-    user_name = prompt(color.green("enter your github user name : "))
-    github = github2.client.Github()
+    #auto save user_name as .username
+    user_name = None
+    if os.path.isfile("./.username"):
+        f = open('./.username', 'r')
+        user_name = str(f.readline()).strip()
+    user_name = prompt(color.green("Enter your github user name : "), default=user_name)
+    f = open('./.username', 'w')
+    f.write(user_name)
+    f.close()
+
+    #load api_token if file exits
+    api_token = None
+    if os.path.isfile("./.api_token"):
+        f = open('./.api_token', 'r')
+        api_token = str(f.readline()).strip()
+        f.close()
+
+    if api_token:
+        print "detach .api_token .... load private repos........"
+        github = github2.client.Github(username=user_name, api_token=api_token)
+    else:
+        github = github2.client.Github()
+
     repos = github.repos.list(user_name)
     my_forks = {}
     for element in repos:
@@ -25,10 +47,16 @@ def get_my_fork():
                 my_forks[project_pure_name]["branch"] = str(repo.master_branch)
             else:
                 my_forks[project_pure_name]["branch"] = "master"
+            if repo.private:
+                my_forks[project_pure_name]["private"] = True
 
     print color.green("Will sync your forks as below:")
     for element in my_forks.keys():
-        print "%s : from %s branch:%s to %s" % (color.blue(str(element)),
+        if "private" in my_forks[element]:
+            repo_str = color.red(str(element))
+        else:
+            repo_str = color.blue(str(element))
+        print "%s : from %s branch:%s to %s" % (repo_str,
                                                 color.cyan(str(my_forks[element]["upstream"])),
                                                 color.magenta(str(my_forks[element]["branch"])),
                                                 color.yellow(str(my_forks[element]["origin"])))
