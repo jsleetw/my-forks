@@ -28,7 +28,7 @@ def get_my_fork():
         f.close()
 
     if api_token:
-        print "detach .api_token .... load private repos........"
+        print "find out .api_token .... load private repos........"
         github = github2.client.Github(username=user_name, api_token=api_token)
     else:
         github = github2.client.Github()
