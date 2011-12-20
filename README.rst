@@ -28,5 +28,10 @@ Usage
 
     fab update
 
+ChangeLog
+=========
 
-thats it !
+v1.0 2011-12-20
+---------------
+    * support private api
+    * auto save username
