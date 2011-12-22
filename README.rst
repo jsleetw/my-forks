@@ -31,7 +31,7 @@ Usage
 ChangeLog
 =========
 
-v1.0 2011-12-20
+v1.0.0 2011-12-20
 ---------------
     * support private api
     * auto save username
