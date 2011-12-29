@@ -1,6 +1,7 @@
 from fabric.api import run, env, prompt
 from fabric.context_managers import settings, cd
 from fabric.contrib import console
+from fabric.utils import abort
 import fabric.colors as color
 import github2.client
 import os
@@ -60,11 +61,10 @@ def get_my_fork():
                                                 color.cyan(str(my_forks[element]["upstream"])),
                                                 color.magenta(str(my_forks[element]["branch"])),
                                                 color.yellow(str(my_forks[element]["origin"])))
-    if console.confirm(color.red("Do you want to continue?"), default=True):
-        return my_forks
-    else:
-        return False
+    if not console.confirm(color.red("Do you want to continue?"), default=True):
+        abort("canceled by user")
 
+    return my_forks
 
 def update():
     my_forks = get_my_fork()
