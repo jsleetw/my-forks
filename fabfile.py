@@ -1,4 +1,4 @@
-from fabric.api import run, env, prompt
+from fabric.api import run, env, prompt, task
 from fabric.context_managers import settings, cd
 from fabric.contrib import console
 from fabric.utils import abort
@@ -9,8 +9,10 @@ import os
 code_dir = '~/test_my_forks/'
 env.hosts = ["localhost"]
 
+__all__ = ['update']
 
-def get_my_fork():
+
+def _get_my_forks():
     #auto save user_name as .username
     user_name = None
     if os.path.isfile("./.username"):
@@ -66,8 +68,10 @@ def get_my_fork():
 
     return my_forks
 
+
+@task(default=True)
 def update():
-    my_forks = get_my_fork()
+    my_forks = _get_my_forks()
     if my_forks:
         for element in my_forks.keys():
             project = element
