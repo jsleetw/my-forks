@@ -12,8 +12,8 @@ env.hosts = ["localhost"]
 __all__ = ['update']
 
 
-def _get_my_forks():
-    #auto save user_name as .username
+def _get_user_name():
+    """auto save user_name as .username"""
     user_name = None
     if os.path.isfile("./.username"):
         f = open('./.username', 'r')
@@ -22,20 +22,27 @@ def _get_my_forks():
     f = open('./.username', 'w')
     f.write(user_name)
     f.close()
+    return user_name
 
-    #load api_token if file exits
+
+def _get_github(user_name):
+    """load api_token if file exits"""
     api_token = None
     if os.path.isfile("./.api_token"):
         f = open('./.api_token', 'r')
         api_token = str(f.readline()).strip()
         f.close()
-
     if api_token:
         print "find out .api_token .... load private repos........"
         github = github2.client.Github(username=user_name, api_token=api_token)
     else:
         github = github2.client.Github()
+    return github
 
+
+def _get_my_forks():
+    user_name = _get_user_name()
+    github = _get_github(user_name)
     repos = github.repos.list(user_name)
     my_forks = {}
     for element in repos:
@@ -52,7 +59,6 @@ def _get_my_forks():
                 my_forks[project_pure_name]["branch"] = "master"
             if repo.private:
                 my_forks[project_pure_name]["private"] = True
-
     print color.green("Will sync your forks as below:")
     for element in my_forks.keys():
         if "private" in my_forks[element]:
@@ -65,7 +71,6 @@ def _get_my_forks():
                                                 color.yellow(str(my_forks[element]["origin"])))
     if not console.confirm(color.red("Do you want to continue?"), default=True):
         abort("canceled by user")
-
     return my_forks
 
 
